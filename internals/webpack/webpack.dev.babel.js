@@ -118,7 +118,7 @@ function dependencyHandlers() {
   return Object.keys(dllPlugin.dlls).map((name) => (
     new webpack.DllReferencePlugin({
       context: process.cwd(),
-      manifest: require(path.resolve(process.cwd(), `app/dlls/${name}.json`)), // eslint-disable-line global-require
+      manifest: require(path.resolve(dllPath, `/${name}.json`)), // eslint-disable-line global-require
     })
   ));
 }
