@@ -28,7 +28,7 @@ const addDevMiddlewares = (app, webpackConfig, options) => {
 
   dllNames.forEach((dllName) => {
     app.get(`/${dllName}.js`, (req, res) => {
-      const file = readFile(path.join(process.cwd(), `app/dlls/${dllName}.js`));
+      const file = readFile(path.resolve(process.cwd(), dllPlugin.path, `${dllName}.js`));
       res.send(file.toString());
     });
   });

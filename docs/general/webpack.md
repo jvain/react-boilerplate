@@ -81,6 +81,6 @@ There may be situations where you want fine grained control over the DLL Plugin.
 
 The cost of the performance boost given to us by the DLL Plugin is that we will need to occasionally update the module manifest and dependency bundle.  
 
-This can be accomplished by running the `npm run build:dll` script. This will create a dependency bundle javascript file, a JSON manifest, in the `app/dlls` folder in your project.  These files are excluded from git using the `.gitignore` file.
+This can be accomplished by running the `npm run build:dll` script. This will create a dependency bundle javascript file, a JSON manifest, in the `node_modules/react-boilerplate-dlls` folder in your project.
 
-This script will automatically be run after an `npm install`
+For convenience, this script will automatically be run after an `npm install`

@@ -99,6 +99,7 @@
     }
   },
   "dllPlugin": {
+    "path": "node_modules/react-boilerplate-dlls",
     "exclude": ["express","chalk","compression"],
     "include": ["core-js", "eventsource-polyfill", "lodash"]
   },

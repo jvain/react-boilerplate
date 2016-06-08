@@ -24,7 +24,6 @@ const uniq = require('lodash/uniq');
 const defaults = require('lodash/defaultsDeep');
 const webpack = require('webpack');
 
-const outputPath = resolve(process.cwd(), 'app/dlls');
 
 /**
  * @todo discuss best configuration UI
@@ -47,31 +46,31 @@ const dllPlugin = defaults(pkg.dllPlugin, {
   include: [
     'babel-polyfill',
     'eventsource-polyfill',
-    'core-js',
+    'core -js',
   ],
+
+  /**
+   * folder where the generated dlls get stored.
+   */
+  path: 'node_modules/react-boilerplate-dlls',
 });
+
 
 if (dllPlugin.dlls && typeof dllPlugin.dlls !== 'object') {
   throw new Error('The Webpack DLL Plugin configuration in your package.json must contain a dlls property.');
 }
 
-const dependencyNames = keys(pkg.dependencies);
-/**
- * Includes the package.json dependencies plus the module names
- * listed in the include / exclude list.
- */
-const entry = typeof dllPlugin.dlls === 'undefined' ?
-  { reactBoilerplateDeps: pullAll(uniq(dependencyNames.concat(dllPlugin.include)), dllPlugin.exclude) } :
-  dllPlugin.dlls;
+const outputPath = resolve(process.cwd(), dllPlugin.path);
+const reactBoilerplateDeps = pullAll(uniq(keys(pkg.dependencies).concat(dllPlugin.include)), dllPlugin.exclude);
 
 module.exports = {
   context: process.cwd(),
-  entry,
+  entry: (typeof dllPlugin.dlls === 'undefined' ? { reactBoilerplateDeps } : dllPlugin.dlls),
   devtool: 'eval',
   output: {
     filename: '[name].js',
-    path: outputPath,
     library: '[name]',
+    path: outputPath,
   },
   plugins: [
     new webpack.DllPlugin({ name: '[name]', path: resolve(outputPath, '[name].json') }), // eslint-disable-line no-new

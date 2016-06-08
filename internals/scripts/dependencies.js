@@ -2,8 +2,8 @@
 
 require('shelljs/global');
 
-rm('-rf', 'app/dlls')
-mkdir('app/dlls')
+rm('-rf', 'node_modules/react-boilerplate-dlls')
+mkdir('node_modules/react-boilerplate-dlls')
 
 echo('Building the Webpack DLL...')
-exec('BUILDING_DLL=true webpack --display-chunks --color --config internals/webpack/webpack.dll.babel.js')
+exec('cross-env BUILDING_DLL=true webpack --display-chunks --color --config internals/webpack/webpack.dll.babel.js')

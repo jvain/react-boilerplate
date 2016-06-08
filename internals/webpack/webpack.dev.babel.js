@@ -79,11 +79,17 @@ function dependencyHandlers() {
   if (process.env.BUILDING_DLL) { return []; }
 
   const dllPlugin = require(path.resolve(process.cwd(), 'package.json')).dllPlugin; // eslint-disable-line global-require
+  const dllPath = path.resolve(process.cwd(), dllPlugin.path || 'node_modules/react-boilerplate-dlls');
 
   // If the package.json does not have a dllPlugin property, use the CommonsChunkPlugin
   if (!dllPlugin) {
     return [
-      new webpack.optimize.CommonsChunkPlugin('common.js'),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        children: true,
+        minChunks: 2,
+        async: true,
+      }),
     ];
   }
 
@@ -94,7 +100,7 @@ function dependencyHandlers() {
    * See docs/general/webpack.md
    */
   if (!dllPlugin.dlls) {
-    const manifestPath = path.resolve(process.cwd(), 'app/dlls/reactBoilerplateDeps.json');
+    const manifestPath = path.resolve(dllPath, 'reactBoilerplateDeps.json');
 
     if (!fs.existsSync(manifestPath)) {
       logger.error('The DLL manifest is missing. Please run `npm run build:dll`');
